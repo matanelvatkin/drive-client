@@ -1,0 +1,6 @@
+.default_button{
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(74, 33, 33);
+}
