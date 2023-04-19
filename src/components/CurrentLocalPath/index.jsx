@@ -6,11 +6,11 @@ import { useSelector, useDispatch } from 'react-redux'
 const CurrentLocalPath = () => {
 
     const path = useSelector((state) => state.document.path)
-    const dispatsh = useDispatch();
+    const dispatch = useDispatch();
 
     const HandelClick = (e, index) => {
         e.preventDefault();
-        dispatsh(setPath(index));
+        dispatch(setPath(index));
     }
 
     return (<>

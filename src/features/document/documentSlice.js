@@ -3,9 +3,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const rootDirectory = "My_Storage"
 const initialState = {
   path: [rootDirectory, "hello", "dael", "manatnel", "cat", "dog"],
-  curentDirectory: {
+  currentDirectory: {
     name: rootDirectory,
-    data: []
+    data: [{type:"file",name:"12"},{type:"directory",name:"15"},{type:"directory",name:"14"},{type:"file",name:"13"}]
   },
   isLoading: true,
   searchValue: ""
