@@ -1,22 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./style.module.css";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { openOption, searchOpenReducer } from "../../redux/reducer";
 import NewDocuments from "../NewDocuments";
 import Input from "../Input";
 
 export default function Heder() {
-  const dispatch = useDispatch();
-  const openOptionPlus = useSelector((state) => state.document);
-  const searchOpen = useSelector((state) => state.searchOpen);
+  const [openOptionPlus,setOpenOptionPlus] = useState(false)
+  const [searchOpen,setSearchOpen] = useState(false)
   const onclickOptionPlus = () => {
-    if(searchOpen) dispatch(searchOpenReducer());
-    dispatch(openOption());
+    if(searchOpen) (setSearchOpen(!searchOpen))
+    setOpenOptionPlus(!openOptionPlus)
   };
   const onclickSearchOpen = () => {
-    if(openOptionPlus) dispatch(openOption());
-    dispatch(searchOpenReducer());
+    if(openOptionPlus) setOpenOptionPlus(!openOptionPlus)
+    setSearchOpen(!searchOpen)
   };
   return (
     <div className={styles.heder}>
