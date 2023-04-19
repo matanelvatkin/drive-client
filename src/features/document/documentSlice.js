@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-
+const rootDirectory = "My_Storage"
 const initialState = {
-  shiftsConnection: null,
-  shiftsForTrade: {},
-  isLoading: true
+  path: [rootDirectory, "hello", "dael", "manatnel", "cat", "dog"],
+  curentDirectory: {
+    name: rootDirectory,
+    data: []
+  },
+  isLoading: true,
+  searchValue: ""
 };
 
 
@@ -12,8 +16,8 @@ const documentSlice = createSlice({
   name: 'document',
   initialState,
   reducers: {
-    setvvv: (state, { payload }) => {
-      // ...
+    setPath: (state, { payload }) => {
+      state.path = [...state.path].slice(0, payload + 1);
     }
   }
 });
@@ -21,7 +25,7 @@ const documentSlice = createSlice({
   
   
   
-export const { setvvv } =
+export const { setPath } =
 documentSlice.actions;
 
 export default documentSlice.reducer;
