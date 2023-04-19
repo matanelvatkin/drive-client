@@ -1,13 +1,9 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./style.module.css";
 
-export default function Input({
-  placeholder = "",
+const Input= forwardRef(({
   type = "text",
-  style = {},
-  className = "",
-  onChange = () => {},
-  onKeyDown = () => {},
-}) {
-  return <input type={type} onKeyDown={onKeyDown} onChange={onChange} placeholder={placeholder} className={className} />;
-}
+  ...props
+},ref)=>(<input {...props} type={type} ref={ref}/>))
+
+export default Input
