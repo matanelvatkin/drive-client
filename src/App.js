@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
+import { store } from "./store";
 import Layout from "./Layout";
-import store from "./redux/reducer";
 
 function App() {
   return (
