@@ -1,31 +1,59 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const rootDirectory = "My_Storage"
+const rootDirectory = "My_Storage";
 const initialState = {
-  path: [rootDirectory, "hello", "dael", "manatnel", "cat", "dog"],
+  path: [],
   currentDirectory: {
     name: rootDirectory,
-    data: [{type:"file",name:"12"},{type:"directory",name:"15"},{type:"directory",name:"14"},{type:"file",name:"13"}]
+    data: [],
   },
   isLoading: true,
-  searchValue: ""
+  searchValue: "",
 };
 
-
-const documentSlice = createSlice({
-  name: 'document',
-  initialState,
-  reducers: {
-    setPath: (state, { payload }) => {
-      state.path = [...state.path].slice(0, payload + 1);
+export const openDirectory = createAsyncThunk(
+  "document/openDirectory",
+  async (payload = rootDirectory, { dispatch, getState, rejectWithValue }) => {
+    try {
+      dispatch(documentSlice.actions.addDirectoryToPath(payload));
+      const path = getState().document.path.join("/");
+      const result = await axios.get("http://localhost:5555/");
+      console.log(result);
+      return result.data;
+    } catch (e) {
+      rejectWithValue(e.code || e.status);
     }
   }
+);
+const documentSlice = createSlice({
+  name: "document",
+  initialState,
+  reducers: {
+    pathNavigation: (state, { payload }) => {
+      state.path = [...state.path].slice(0, payload + 1);
+    },
+    addDirectoryToPath: (state, { payload }) => {
+      state.path = [...state.path, payload];
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(openDirectory.pending, (state, { payload }) => {
+        state.isLoading = true;
+      })
+      .addCase(openDirectory.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.currentDirectory = payload;
+      })
+      .addCase(openDirectory.rejected, (state, error) => {
+        state.isLoading = false;
+        alert(error)
+        state.path=state.path.slice(0, state.path.length - 1)
+      });
+  },
 });
-  
-  
-  
-  
-export const { setPath } =
-documentSlice.actions;
+
+export const { pathNavigation } = documentSlice.actions;
 
 export default documentSlice.reducer;

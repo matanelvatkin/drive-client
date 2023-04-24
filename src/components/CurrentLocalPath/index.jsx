@@ -1,6 +1,6 @@
 import { Breadcrumbs, Link, Typography, TextField } from '@mui/material'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { setPath } from '../../features/document/documentSlice';
+import { pathNavigation } from '../../features/document/documentSlice';
 import { useSelector, useDispatch } from 'react-redux'
 
 const CurrentLocalPath = () => {
@@ -10,7 +10,7 @@ const CurrentLocalPath = () => {
 
     const HandelClick = (e, index) => {
         e.preventDefault();
-        dispatch(setPath(index));
+        dispatch(pathNavigation(index));
     }
 
     return (<>
