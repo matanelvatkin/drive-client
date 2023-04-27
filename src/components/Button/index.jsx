@@ -8,7 +8,6 @@ export default function Button({
   className = "",
   onClick = () => {},
 }) {
-  console.log(Icon);
   return (
     <div className={`${styles.default_button} ${className}`}>
       <Icon onClick={onClick}/>

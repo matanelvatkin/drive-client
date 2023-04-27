@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import apiCalls from "../../functions/apiCalls";
 
-const rootDirectory = "My_Storage";
+const rootDirectory = {name:"My_Storage",type:"directory"};
 const initialState = {
   path: [],
   currentDirectory: {
     name: rootDirectory,
     data: [],
+    id:"",
   },
   isLoading: true,
   searchValue: "",
@@ -14,13 +16,17 @@ const initialState = {
 
 export const openDirectory = createAsyncThunk(
   "document/openDirectory",
-  async (payload = rootDirectory, { dispatch, getState, rejectWithValue }) => {
+  async (payload={name:rootDirectory}, { dispatch, getState, rejectWithValue }) => {
     try {
-      dispatch(documentSlice.actions.addDirectoryToPath(payload));
-      const path = getState().document.path.join("/");
-      const result = await axios.get("http://localhost:5555/");
-      console.log(result);
-      return result.data;
+      dispatch(documentSlice.actions.updateID(payload._id))
+      dispatch(documentSlice.actions.addDirectoryToPath(payload.name));
+      const result = await apiCalls(
+        "get",
+        "document/getchildren",
+        {},
+        {dirId: getState().document.currentDirectory.id}
+        );
+      return result;
     } catch (e) {
       rejectWithValue(e.code || e.status);
     }
@@ -34,8 +40,11 @@ const documentSlice = createSlice({
       state.path = [...state.path].slice(0, payload + 1);
     },
     addDirectoryToPath: (state, { payload }) => {
-      state.path = [...state.path, payload];
+      state.path =[...state.path, payload];
     },
+    updateID:(state, { payload }) => {
+      state.currentDirectory.id= payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -44,16 +53,18 @@ const documentSlice = createSlice({
       })
       .addCase(openDirectory.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.currentDirectory = payload;
+        state.currentDirectory.data = payload;
       })
       .addCase(openDirectory.rejected, (state, error) => {
         state.isLoading = false;
-        alert(error)
-        state.path=state.path.slice(0, state.path.length - 1)
+        alert(error);
+        if (state.path.length > 1) {
+          state.path = state.path.slice(0, state.path.length - 1);
+        }
       });
   },
 });
 
-export const { pathNavigation } = documentSlice.actions;
+export const { pathNavigation, addDirectoryToPath,updateID } = documentSlice.actions;
 
 export default documentSlice.reducer;

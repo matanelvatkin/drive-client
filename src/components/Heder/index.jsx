@@ -3,10 +3,12 @@ import styles from "./style.module.css";
 import { AiOutlineSearch, AiOutlinePlus } from "react-icons/ai";
 import NewDocuments from "../NewDocuments";
 import Input from "../Input";
+import { useSelector } from "react-redux";
 
 export default function Heder() {
   const [openOptionPlus,setOpenOptionPlus] = useState(false)
   const [searchOpen,setSearchOpen] = useState(false)
+  const userRedux = useSelector(state=>state.user)
   const onclickOptionPlus = () => {
     if(searchOpen) (setSearchOpen(!searchOpen))
     setOpenOptionPlus(!openOptionPlus)
@@ -20,7 +22,7 @@ export default function Heder() {
       <div>
         <span>My</span>drive
       </div>
-      <div>USERNAME</div>
+      <div>{userRedux.fullName}</div>
       <div className={styles.menu}>
         <AiOutlinePlus
           className={`${styles.default_button} ${

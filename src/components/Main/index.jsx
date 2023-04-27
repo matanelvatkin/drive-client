@@ -6,36 +6,32 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
 import { openDirectory } from "../../features/document/documentSlice";
 export default function Main() {
-  // const currentDirectoryData = useSelector(
-  //   (state) => state.document.currentDirectory.data
-  // );
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(openDirectory());
-  // }, []);
-  // const handelOpenDirectory = (name,type) => {
-  //   console.log(name,type);
-  //   if (type === "directory") {
-  //     dispatch(openDirectory(name));
-  //   }
-  // };
-  return (
-    <div className={styles.main}>
-      {/* <CurrentLocalPath />
-      <main>
-        {currentDirectoryData.map((doc) => {
+  const directory = useSelector(
+    (state) => state.document
+  );
+  const dispatch = useDispatch();
+  const handelOpenDirectory = (directory) => {
+    if (directory.type === "directory") {
+      dispatch(openDirectory(directory));
+    }
+  };
+  return (<div className={styles.main}>
+      <CurrentLocalPath />
+    {directory.currentDirectory.data&&directory.currentDirectory.data.length>0?<main>
+        {directory.currentDirectory.data.map((directory) => {
           return (
-            <div key={doc.name} onDoubleClick={()=>handelOpenDirectory(doc.name,doc.type)}>
-              {doc.type === "file" ? (
+            <div key={directory._id} onDoubleClick={()=>handelOpenDirectory(directory)}>
+              {directory.type === "file" ? (
                 <DescriptionIcon fontSize="large" />
               ) : (
                 <FolderIcon fontSize="large" />
               )}
-              <span>{doc.name}</span>
+              <span>{directory.name}</span>
             </div>
           );
         })}
-      </main> */}
+      </main>
+      :null}
     </div>
   );
 }

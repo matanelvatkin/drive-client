@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiCalls from "../../functions/apiCalls";
+import { useDispatch } from "react-redux";
+import { updateID } from "../document/documentSlice";
 const initialState = {
   fullName: "",
   email: "",
@@ -37,24 +39,36 @@ export const register = createAsyncThunk(
     }
   }
 );
+
+export const getUser = createAsyncThunk(
+  "user/getUser",
+  async (payload = undefined, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const user = await apiCalls("get", "user/user");
+      return user;
+    } catch (e) {
+      rejectWithValue(e.code || e.status);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     user: (state, { payload }) => {
-      state = {...state,...payload};
-      return state
+      state = { ...state, ...payload };
+      return state;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state, { payload }) => {
-        state.isLoading=true
+        state.isLoading = true;
       })
       .addCase(login.fulfilled, (state, { payload }) => {
-        state = {...state,isLoading:false,...payload.user}
+        state = { ...state, isLoading: false, ...payload.user };
         localStorage.setItem("token", payload.token);
-        return state
+        return state;
       })
       .addCase(login.rejected, (state, error) => {
         state.isLoading = false;
@@ -83,10 +97,28 @@ const userSlice = createSlice({
           my_storage: {},
           isLoading: false,
         };
+      })
+      .addCase(getUser.pending, (state, { payload }) => {
+        state.isLoading = true;
+      })
+      .addCase(getUser.fulfilled, (state, {payload }) => {
+        state = {...state,isLoading:false,...payload};
+        return state
+      })
+      .addCase(getUser.rejected, (state, error) => {
+        state.isLoading = false;
+        alert(error);
+        state = {
+          fullName: "",
+          email: "",
+          password: "",
+          my_storage: {},
+          isLoading: false,
+        };
       });
   },
 });
 
-export const { user } = userSlice.actions;
+export const { user} = userSlice.actions;
 
 export default userSlice.reducer;
