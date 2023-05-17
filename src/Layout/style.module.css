@@ -3,4 +3,10 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: 50px;
+    background-color: rgb(209, 213, 222);
+}
+
+.layout main{
+    width: 100%;
 }

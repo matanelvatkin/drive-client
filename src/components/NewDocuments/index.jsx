@@ -5,7 +5,7 @@ import styles from "./style.module.css";
 import Input from "../Input";
 import apiCalls from "../../functions/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
-import { openDirectory, updateID } from "../../features/document/documentSlice";
+import { addDirectoryToPath,updateChildren, updateID,  } from "../../features/document/documentSlice";
 
 export default function NewDocuments() {
   const uploadRef = useRef();
@@ -19,12 +19,16 @@ export default function NewDocuments() {
   };
   const onEnterNewDirectoryName = async (e) => {
     if (e.key === "Enter" && newDirectoryName.current.value !== "") {
+
       const newDirectory = await apiCalls("put", "document/adddirectory", {
         id: directory.currentDirectory.id,
-        arrayPath: [user.email, ...directory.path.map((path) => path.name)],
+        arrayPath: [user.email, ...directory.path.map((path) => path[0])],
         directoryName:newDirectoryName.current.value
       });
+      dispatch(addDirectoryToPath({id:newDirectory._id,name:newDirectory.name}))
       dispatch(updateID(newDirectory._id))
+      dispatch(updateChildren(newDirectory.children))
+      e.target.value = ""
     }
   };
   const onUploadFile = async (e) => {
@@ -34,11 +38,11 @@ export default function NewDocuments() {
     }
     formData.append("arrayPath", [
       user.email,
-      ...directory.path.map((path) => path.name),
+      ...directory.path.map((path) => path[0]),
     ]);
     formData.append("id", directory.currentDirectory.id);
     const upload = await apiCalls("put", "document/addfile", formData);
-    dispatch(openDirectory(upload._id));
+    dispatch(updateChildren(upload.children));
   };
   return (
     <div className={styles.menu_button}>

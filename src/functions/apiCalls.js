@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:5555/api/"
+axios.defaults.baseURL = "http://localhost:5556/api/"
 
 const apiCalls = async (method, url, data=undefined,params=undefined) => {
     axios.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`
@@ -16,6 +16,7 @@ const apiCalls = async (method, url, data=undefined,params=undefined) => {
         return res.data
     }
     catch (error) {
+        console.log(error);
     }
 }
 
