@@ -10,3 +10,11 @@ body {
   height: 100vh;
 }
 
+:root{
+  --bg-color : rgb(209, 213, 222);
+  --header-color :rgb(183, 182, 194);
+  --header-button-color :rgb(138, 170, 121);
+  --header-text-secondary-color :#fff;
+  --document-background-color :rgb(142, 148, 139);
+}
+

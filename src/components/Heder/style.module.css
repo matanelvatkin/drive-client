@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: rgb(183, 182, 194);
+  background-color: var(--header-color);
 }
 
 .menu {
@@ -23,8 +23,8 @@
 }
 
 .open_button {
-  background-color: rgb(138, 170, 121);
-  color: #fff;
+  background-color: var(--header-button-color);
+  color: var(--header-text-secondary-color);
   border-radius: 50%;
   width: 25px;
   height: 25px;
@@ -41,7 +41,7 @@
 .open_button::after {
   content: "";
   position: absolute;
-  background-color: rgb(138, 170, 121);
+  background-color: var(--header-button-color);
   top: 0;
   left: 0;
   transform: translate(-50%, -50%);
@@ -65,7 +65,7 @@
   top: 120%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgb(138, 170, 121);
+  background-color: var(--header-button-color);
   border: 1px solid rgb(101, 113, 83);
   border-radius: 0.5rem;
   padding: 6px;

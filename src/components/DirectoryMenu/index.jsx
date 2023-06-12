@@ -25,7 +25,9 @@ export default function DirectoryMenu({directoryId}) {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-    <div>
+    <div onClick={(event) => {
+      event.preventDefault();
+    }}>
       <Button color={"inherit"} onClick={handleClick}>
       <MoreVertIcon fontSize='small'/>
       </Button>

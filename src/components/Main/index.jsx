@@ -20,7 +20,7 @@ export default function Main() {
   useEffect(() => {
     setPath(`${userEmail}/${directory.path.map((path) => path[0]).join("/")}`);
   }, [directory.path]);
-  
+
   return (
     <div className={styles.main}>
       <CurrentLocalPath />
@@ -39,7 +39,7 @@ export default function Main() {
                   >
                     <FolderIcon fontSize="large" />
                     <span>{directory.name}</span>
-                    <DirectoryMenu directoryId={directory._id}/>
+                    <DirectoryMenu directoryId={directory._id} />
                   </div>
                 );
               })}
@@ -60,7 +60,10 @@ export default function Main() {
                       target="_blank"
                       className={styles.file_link}
                     >
-                    <div className={styles.file_name}>{directory.name}</div>
+                      <div className={styles.file_name}>
+                        <span>{directory.name}</span>
+                        <DirectoryMenu directoryId={directory._id} />
+                      </div>
                       <embed
                         src={`http://localhost:5556/uploads/${path}/${directory.name}`}
                         alt={directory.name}
@@ -68,7 +71,6 @@ export default function Main() {
                       />
                     </a>
                   </div>
-                      
                 );
               })}
           </div>

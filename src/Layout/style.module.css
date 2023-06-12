@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    background-color: rgb(209, 213, 222);
+    background-color: var(--bg-color);
 }
 
 .layout main{
