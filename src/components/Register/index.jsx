@@ -1,4 +1,4 @@
-import style from "./style.module.css";
+import styles from "./style.module.css";
 import { useNavigate } from "react-router-dom";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,12 +24,12 @@ export default function Register() {
 
     }
   return (
-    <div>
-      <form onSubmit={handelSubmit}>
-        <Input type="text" placeholder="full name" name='fullName' ref={fullNameRef}/>
-        <Input type="email" placeholder="email" name='email' ref={emailRef} />
-        <Input type="password" placeholder="password" name='password' ref={passwordRef} />
-        <button type="submit">register</button>
+    <div className={styles.register_continuer}>
+      <form onSubmit={handelSubmit} className={styles.form_continuer}>
+        <Input className={styles.register_input} type="text" placeholder="full name" name='fullName' ref={fullNameRef}/>
+        <Input className={styles.register_input} type="email" placeholder="email" name='email' ref={emailRef} />
+        <Input className={styles.register_input} type="password" placeholder="password" name='password' ref={passwordRef} />
+        <button className={styles.register_button} type="submit">register</button>
       </form>
     </div>
   );
